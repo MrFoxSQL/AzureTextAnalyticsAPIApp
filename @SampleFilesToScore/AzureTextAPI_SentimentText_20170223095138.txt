@@ -1,0 +1,43 @@
+SentimentTextID	SentimentTextLine	SentimentTextScore
+1	The Candidate is an enthusiastic learner who seems to enjoy work. The Candidate exhibits a positive outlook and attitude in the workspace.	0.8029011
+2	The Candidate appears well rested and ready for each day's activities. The Candidate shows enthusiasm for workspace activities. The Candidate shows initiative and looks for new ways to get involved.	0.9489385
+3	The Candidate uses instincts to deal with matters independently and in a positive way. The Candidate strives to reach their full potential.	0.9316736
+4	The Candidate is committed to doing their best.	0.8293441
+5	The Candidate seeks new challenges.	0.9601167
+6	The Candidate takes responsibility for their learning. The Candidate cooperates consistently with the teacher and other Candidates. The Candidate transitions easily between workspace activities without distraction. The Candidate is courteous and shows good manners in the workspace.	0.7755291
+7	The Candidate follows workspace rules. The Candidate conducts themselves with maturity.	0.5370281
+8	The Candidate responds appropriately when corrected. The Candidate remains focused on the activity at hand.	0.6971621
+9	The Candidate resists the urge to be distracted by other Candidates. The Candidate is kind and helpful to everyone in the workspace. The Candidate sets an example of excellence in behavior and cooperation.	0.9442048
+10	The Candidate shows respect for teachers and peers. The Candidate treats work property and the belongings of others with care and respect.	0.7087609
+11	The Candidate is honest and trustworthy in dealings with others. The Candidate displays good citizenship by assisting other Candidates. The Candidate joins in work community projects.	0.7158269
+12	The Candidate is concerned about the feelings of peers.	0.1543526
+13	The Candidate faithfully performs workspace tasks. The Candidate can be depended on to do what they are asked to do.	0.3907019
+14	The Candidate seeks responsibilities and follows through. The Candidate is thoughtful in interactions with others. The Candidate has a well-developed vocabulary. The Candidate chooses words with care.	0.9819248
+15	The Candidate expresses ideas clearly, both verbally and through writing. The Candidate has a vibrant imagination and excels in creative writing.	0.9026405
+16	The Candidate has found their voice through poetry writing. The Candidate uses vivid language in writing.	0.7099493
+17	The Candidate writes clearly and with purpose. The Candidate writes with depth and insight. The Candidate can make a logical and persuasive argument. The Candidate listens to the comments and ideas of others without interrupting.	0.8097213
+18	The Candidate offers constructive suggestions to peers to enhance their work. The Candidate accepts the recommendations of peers and acts on them when appropriate.	0.9749909
+19	The Candidate is sensitive to the thoughts and opinions of others in the group. The Candidate takes on various roles in the work group as needed or assigned. The Candidate welcomes leadership roles in groups. The Candidate shows fairness in distributing group tasks.	0.8676156
+20	The Candidate plans and carries out group activities carefully. The Candidate works democratically with peers. The Candidate encourages other members of the group. The Candidate helps to keep the work group focused and on task. The Candidate has a well-developed sense of humor.	0.9862865
+21	The Candidate holds many varied interests. The Candidate has a keen interest that has been shared with the team.	0.7367063
+22	The Candidate displays and talks about personal items from home when they relate to topics of study. The Candidate provides background knowledge about topics of particular interest to them.	0.7356461
+23	The Candidate has an impressive understanding and depth of knowledge about their interests.	0.9102274
+24	The Candidate seeks additional information independently about workspace topics that pique interest.	0.8223062
+25	The Candidate reads extensively for enjoyment. The Candidate frequently discusses concepts about which they have read.	0.7266856
+26	The Candidate is a gifted performer. The Candidate is a talented artist. The Candidate has a flair for dramatic reading and acting. The Candidate enjoys sharing their musical talent with the team.	0.9873437
+27	The Candidate listens attentively to the responses of others. The Candidate follows directions.	0.8409811
+28	The Candidate takes an active role in discussions. The Candidate enhances group discussion through insightful comments.	0.8919755
+29	The Candidate shares personal experiences and opinions with peers. The Candidate responds to what has been read or discussed in team and as homework. The Candidate asks for clarification when needed.	0.864412
+30	The Candidate regularly volunteers to assist in workspace activities. The Candidate remains an active learner throughout the work day.	0.6921545
+31	The Candidate makes friends quickly in the workspace. The Candidate is well-liked by teammates.	0.6908574
+32	The Candidate handles disagreements with peers appropriately. The Candidate treats other Candidates with fairness and understanding.	0.8496425
+33	The Candidate is a valued member of the team. The Candidate has compassion for peers and others. The Candidate seems comfortable in new situations.	0.5572666
+34	The Candidate enjoys conversation with friends during free periods. The Candidate chooses to spend free time with friends.	0.9363905
+35	The Candidate tackles workspace assignments, tasks, and group work in an organized manner. The Candidate uses team time wisely. The Candidate arrives on time for work (and/or team) every day.	0.1021689
+36	The Candidate is well-prepared for team each day. The Candidate works at an appropriate pace, neither too quickly or slowly. The Candidate completes assignments in the time allotted.	0.3971326
+37	The Candidate paces work on long-term assignments. The Candidate sets achievable goals with respect to time. The Candidate completes make-up work in a timely fashion.	0.9635952
+38	The Candidate is a conscientious, hard-working Candidate. The Candidate works independently. The Candidate is a self-motivated Candidate. The Candidate consistently completes homework assignments.	0.4891994
+39	The Candidate puts forth their best effort into homework assignments. The Candidate exceeds expectations with the quality of their work. The Candidate readily grasps new concepts and ideas. The Candidate generates neat and careful work.	0.7965418
+40	The Candidate checks work thoroughly before submitting it. The Candidate stays on task with little supervision.	0.7303725
+41	The Candidate displays self-discipline. The Candidate avoids careless errors through attention to detail.	0.6179594
+42	The Candidate uses free minutes of team time constructively. The Candidate creates impressive home projects.	0.7796884
