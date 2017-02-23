@@ -1,4 +1,4 @@
-# Mr. Fox SQL - AzTextAnalyticsApp
+# Mr. Fox SQL - AzureTextAnalyticsAPIApp
 
 Azure Cognitive Services Text Analytics API Calling Application
 
