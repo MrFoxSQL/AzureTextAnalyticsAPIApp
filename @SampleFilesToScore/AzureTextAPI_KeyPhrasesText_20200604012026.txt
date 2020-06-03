@@ -1,0 +1,202 @@
+SentimentTextID	KeyPhraseTextID	KeyPhraseTextLine
+1	2	Candidate
+1	3	positive outlook
+1	4	attitude
+1	5	workspace
+1	6	enthusiastic learner
+2	7	Candidate
+2	8	day's activities
+2	9	workspace activities
+2	10	initiative
+2	11	enthusiasm
+2	12	new ways
+3	13	Candidate
+3	14	matters
+3	15	positive way
+3	16	instincts
+3	17	potential
+4	18	Candidate
+4	19	best
+5	20	Candidate
+5	21	new challenges
+6	22	Candidate transitions
+6	23	workspace activities
+6	24	good manners
+6	25	distraction
+6	26	teacher
+6	27	responsibility
+6	28	learning
+6	29	Candidates
+7	30	Candidate
+7	31	workspace rules
+7	32	maturity
+8	33	Candidate
+8	34	activity
+8	35	hand
+9	36	example of excellence
+9	37	behavior
+9	38	cooperation
+9	39	urge
+9	40	kind
+9	41	Candidates
+9	42	workspace
+10	43	Candidate
+10	44	respect
+10	45	belongings
+10	46	work property
+10	47	teachers
+10	48	peers
+10	49	care
+11	50	good citizenship
+11	51	dealings
+11	52	work community projects
+11	53	Candidates
+12	54	feelings of peers
+12	55	Candidate
+13	56	Candidate
+13	57	workspace tasks
+14	58	Candidate
+14	59	interactions
+14	60	well-developed vocabulary
+14	61	words
+14	62	care
+14	63	responsibilities
+15	64	Candidate
+15	65	creative writing
+15	66	vibrant imagination
+15	67	ideas
+16	68	Candidate
+16	69	poetry writing
+16	70	voice
+16	71	vivid language
+17	72	Candidate
+17	73	persuasive argument
+17	74	depth
+17	75	insight
+17	76	comments
+17	77	ideas
+17	78	purpose
+18	79	Candidate
+18	80	recommendations of peers
+18	81	acts
+18	82	constructive suggestions
+18	83	work
+19	84	Candidate
+19	85	work group
+19	86	group tasks
+19	87	various roles
+19	88	leadership roles
+19	89	opinions
+19	90	thoughts
+19	91	groups
+19	92	fairness
+20	93	Candidate
+20	94	work group
+20	95	group activities
+20	96	well-developed sense of humor
+20	97	task
+20	98	members
+20	99	peers
+21	100	Candidate
+21	101	varied interests
+21	102	team
+22	103	Candidate
+22	104	topics of particular
+22	105	topics of study
+22	106	background knowledge
+22	107	personal items
+22	108	home
+23	109	depth of knowledge
+23	110	impressive understanding
+23	111	Candidate
+23	112	interests
+24	113	additional information
+24	114	workspace topics
+24	115	Candidate
+25	116	Candidate
+25	117	enjoyment
+25	118	concepts
+26	119	Candidate
+26	120	musical talent
+26	121	flair
+26	122	dramatic reading
+26	123	team
+26	124	gifted performer
+26	125	talented artist
+27	126	Candidate
+27	127	responses
+27	128	directions
+28	129	Candidate
+28	130	group discussion
+28	131	insightful comments
+28	132	active role
+28	133	discussions
+29	134	Candidate
+29	135	opinions
+29	136	personal experiences
+29	137	peers
+29	138	team
+29	139	homework
+29	140	clarification
+30	141	Candidate
+30	142	active learner
+30	143	work day
+30	144	workspace activities
+31	145	Candidate
+31	146	friends
+31	147	workspace
+31	148	teammates
+32	149	disagreements
+32	150	peers
+32	151	Candidates
+32	152	fairness
+33	153	Candidate
+33	154	valued member
+33	155	new situations
+33	156	team
+33	157	compassion
+33	158	peers
+34	159	friends
+34	160	Candidate
+34	161	free periods
+34	162	free time
+34	163	conversation
+35	164	team time
+35	165	group work
+35	166	Candidate tackles workspace assignments
+35	167	tasks
+35	168	organized manner
+35	169	day
+36	170	Candidate
+36	171	team
+36	172	day
+36	173	assignments
+36	174	time allotted
+36	175	appropriate pace
+37	176	Candidate paces
+37	177	make-up work
+37	178	achievable goals
+37	179	respect
+37	180	timely fashion
+37	181	long-term assignments
+38	182	hard-working Candidate
+38	183	self-motivated Candidate
+38	184	homework assignments
+39	185	Candidate
+39	186	careful work
+39	187	best effort
+39	188	homework assignments
+39	189	new concepts
+39	190	ideas
+39	191	expectations
+39	192	quality
+40	193	Candidate checks
+40	194	task
+40	195	little supervision
+41	196	Candidate
+41	197	careless errors
+41	198	attention
+41	199	self-discipline
+42	200	Candidate
+42	201	free minutes of team time
+42	202	impressive home projects

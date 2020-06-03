@@ -35,24 +35,33 @@ namespace Cognitive_TEXT_API
             int SentimentID = 1;
             int SentenceID = 1;
             int KeyPhraseID = 1;
+            int EntityID = 1;
             int FileTotalLines = 0;
             int ProcessTotalErrors = 0;
-            int ProgressIncAmt = 0;
             string InputFileTextLine;
-            string[] InputFileSentences;
             string JSONCallString = "";
             string JSONCallResponse = "";
             string ResultLine;
-            string ResultScore;
+            string ResultScoreLabel;
+            string ResultScoreConfPositive;
+            string ResultScoreConfNeutral;
+            string ResultScoreConfNegative;
             string ResultKeyPhrases;
             string ResultKeyPhrasesListSring;
+            string ResultEntityText;
+            string ResultEntityCategory;
+            string ResultEntityScore;
+            string ResultSentenceText;
             string ResultErrors;
             string ResultErrorsListString;
             string strnow = DateTime.Now.ToString("yyyyMMddHHmmss");
+            DateTime strstart = DateTime.Now;
+            DateTime strend;
             string FileLine;
             string FileName_Sentiment = OutputFile.Text + "\\AzureTextAPI_SentimentText_" + strnow + ".txt";
             string FileName_Phrases = OutputFile.Text + "\\AzureTextAPI_KeyPhrasesText_" + strnow + ".txt";
             string FileName_Sentence = OutputFile.Text + "\\AzureTextAPI_SentenceText_" + strnow + ".txt";
+            string FileName_Entity = OutputFile.Text + "\\AzureTextAPI_EntityText_" + strnow + ".txt";
             List<string> ResultErrorsList;
             List<string> ResultKeyPhrasesList;
             JObject JSONObject;
@@ -60,11 +69,7 @@ namespace Cognitive_TEXT_API
 
             // Clear Text Box
             Results.Text = "";
-
-            // Set progress to 0%
-            ProgressBar.Value = 0;
-            PctComplete.Text = ProgressBar.Value.ToString() + "%";
-            Results.AppendText("Process Starting." + Environment.NewLine);
+            Results.AppendText("Process Starting [Date:" + strstart + "]..." + Environment.NewLine);
             Results.AppendText(Environment.NewLine);
 
             try
@@ -75,29 +80,34 @@ namespace Cognitive_TEXT_API
                 FileTotalLines = System.IO.File.ReadLines(SourceFile.Text).Count();
 
                 // Set Progress Bar
-                ProgressIncAmt = 100 / (FileTotalLines + 2);
+                ProgressBar.Minimum = 0;
+                ProgressBar.Maximum = FileTotalLines;
+                ProgressBar.Value = 0;
+                PctComplete.Text = "[0/" + ProgressBar.Maximum + "]";
 
-                // Create 3x New Output Files and Write File Headers
+                // Create Output Files and Write File Headers
                 System.IO.StreamWriter streamWriter_Sentiment = new System.IO.StreamWriter(FileName_Sentiment);
                 System.IO.StreamWriter streamWriter_Phrases = new System.IO.StreamWriter(FileName_Phrases);
                 System.IO.StreamWriter streamWriter_Sentence = new System.IO.StreamWriter(FileName_Sentence);
+                System.IO.StreamWriter streamWriter_Entity = new System.IO.StreamWriter(FileName_Entity);
 
-                FileLine = "SentimentTextID" + "\t" + "SentimentTextLine" + "\t" + "SentimentTextScore";
+                FileLine = "SentimentTextID" + "\t" + "SentimentTextLine" + "\t" + "SentimentTextLabel" + "\t" + "SentimentTextScoreConfPositive" + "\t" + "SentimentTextScoreConfNeutral" + "\t" + "SentimentTextScoreConfNegative";
                 streamWriter_Sentiment.WriteLine(FileLine);
 
-                FileLine = "SentimentTextID" + "\t" + "SentenceTextID" + "\t" + "SentenceTextLine" + "\t" + "SentenceTextScore";
+                FileLine = "SentimentTextID" + "\t" + "SentenceTextID" + "\t" + "SentenceTextLine" + "\t" + "SentimentTextLabel" + "\t" + "SentimentTextScoreConfPositive" + "\t" + "SentimentTextScoreConfNeutral" + "\t" + "SentimentTextScoreConfNegative";
                 streamWriter_Sentence.WriteLine(FileLine);
 
                 FileLine = "SentimentTextID" + "\t" + "KeyPhraseTextID" + "\t" + "KeyPhraseTextLine";
                 streamWriter_Phrases.WriteLine(FileLine);
+
+                FileLine = "SentimentTextID" + "\t" + "EntityID" + "\t" + "ResultEntityText" + "\t" + "ResultEntityCategory" + "\t" + "ResultEntityScore";
+                streamWriter_Entity.WriteLine(FileLine);
 
 
                 ////////// START SENTIMENT PROCESS //////////
 
                 Results.AppendText("Using Azure Cognitive API [" + TextAPIBaseURL.Text + TextAPIVersion.Text + "]." + Environment.NewLine);
                 Results.AppendText(Environment.NewLine);
-                ProgressBar.Value = ProgressBar.Value + ProgressIncAmt;
-                PctComplete.Text = ProgressBar.Value.ToString() + "%";
 
                 using (var client = new HttpClient())
                 {
@@ -136,30 +146,30 @@ namespace Cognitive_TEXT_API
                             InputFileTextLine = Regex.Replace(InputFileTextLine, @"((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)", string.Empty);
                         }
 
-                        // Truncate Text to 10K (maximum document size for TEXT API)
+                        // Truncate Text to 5120 (maximum document size for TEXT API)
                         if (cb1500.Checked == true)
                         {
                             //Console.WriteLine(System.Text.ASCIIEncoding.Unicode.GetByteCount(InputFileTextLine)); // <-- For debugging use.
-                            if (System.Text.ASCIIEncoding.Unicode.GetByteCount(InputFileTextLine) > 10000)
+                            if (System.Text.ASCIIEncoding.Unicode.GetByteCount(InputFileTextLine) > 5120)
                             {
-                                InputFileTextLine = Truncate(InputFileTextLine, 10000);
+                                InputFileTextLine = Truncate(InputFileTextLine, 5120);
                             }
                         }
 
-                        ResultLine = "Reading File Text Line [ID: " + SentimentID + "]: " + InputFileTextLine;
+                        ResultLine = "Reading File Data [ID: " + SentimentID + "]: " + InputFileTextLine;
                         Results.AppendText(ResultLine + Environment.NewLine);
 
                         if (InputFileTextLine.Trim() != "") // not a blank line
                         {
-                            // Define Base JSON Call Request body used for both Sentiment and Key Phrases
-                            JSONCallString = "{\"documents\":[{\"id\":\"" + SentimentID + "\",\"text\":\"" + InputFileTextLine.Replace("\"", "") + "\"}]}";
+                            // Define Base JSON Call Request body
+                            JSONCallString = "{\"documents\":[{\"language\": \"en\",\"id\":\"" + SentimentID + "\",\"text\":\"" + InputFileTextLine.Replace("\"", "") + "\"}]}";
                             byteData = Encoding.UTF8.GetBytes(JSONCallString);
 
-
                             // KEY PHRASES
+                            Results.AppendText(Environment.NewLine);
                             if (rbKeyPhrases.Checked == true)
                             {
-                                ResultLine = "Detecting Text Line Key Phrases...";
+                                ResultLine = "Detecting [Key Phrases]...";
                                 Results.AppendText(ResultLine + Environment.NewLine);
 
                                 JSONCallResponse = await CallEndpoint(client, TextAPIBaseURL.Text + TextAPIVersion.Text + "keyPhrases", byteData);
@@ -197,9 +207,10 @@ namespace Cognitive_TEXT_API
                             }
 
                             // SENTIMENT - FULL TEXT
+                            Results.AppendText(Environment.NewLine);
                             if (rbSentiment.Checked == true)
                             {
-                                ResultLine = "Detecting Text Line Sentiment...";
+                                ResultLine = "Detecting [Sentiment]...";
                                 Results.AppendText(ResultLine + Environment.NewLine);
 
                                 JSONCallResponse = await CallEndpoint(client, TextAPIBaseURL.Text + TextAPIVersion.Text + "sentiment", byteData);
@@ -217,104 +228,116 @@ namespace Cognitive_TEXT_API
                                 }
                                 else
                                 {
-                                    ResultScore = JSONObject["documents"][0]["score"].ToString();
+                                    ResultScoreLabel = JSONObject["documents"][0]["sentiment"].ToString();
+                                    ResultScoreConfPositive = JSONObject["documents"][0]["confidenceScores"].SelectToken("$.positive").ToString();
+                                    ResultScoreConfNeutral = JSONObject["documents"][0]["confidenceScores"].SelectToken("$.neutral").ToString();
+                                    ResultScoreConfNegative = JSONObject["documents"][0]["confidenceScores"].SelectToken("$.negative").ToString();
 
-                                    ResultLine = "Sentiment [" + ResultScore + "]";
+                                    ResultLine = "Full Text Sentiment: Label [" + ResultScoreLabel + "] [Positive:" + ResultScoreConfPositive + " | Neutral:" + ResultScoreConfNeutral + " | Negative:" + ResultScoreConfNegative + "]";
                                     Results.AppendText(ResultLine + Environment.NewLine);
 
                                     //Write to File
-                                    FileLine = SentimentID.ToString() + "\t" + InputFileTextLine + "\t" + ResultScore;
+                                    FileLine = SentimentID.ToString() + "\t" + InputFileTextLine + "\t" + ResultScoreLabel + "\t" + ResultScoreConfPositive + "\t" + ResultScoreConfNeutral + "\t" + ResultScoreConfNegative;
                                     streamWriter_Sentiment.WriteLine(FileLine);
                                 }
 
-
-                                // Split into Sentences
+                                // SENTIMENT - SENTENCE
+                                Results.AppendText(Environment.NewLine);
                                 if (cbSplit.Checked == true)
                                 {
-                                    ResultLine = "Splitting Text Line into Sentences ...";
-                                    Results.AppendText(ResultLine + Environment.NewLine);
-
-                                    InputFileSentences = Regex.Split(InputFileTextLine, @"(?<=[\w\s](?:[\.\!\? ]+[\x20]*[\x22\xBB]*))(?:\s+(?![\x22\xBB](?!\w)))");
-
-                                    foreach (var Sentence in InputFileSentences)
+                                    foreach (var Sentence in JSONObject["documents"][0]["sentences"])
                                     {
-                                        ResultLine = "Reading Sentence Text Line [ID: " + SentimentID + "." + SentenceID + "]: " + Sentence;
+                                        ResultSentenceText = Sentence["text"].ToString();
+
+                                        ResultLine = "Reading Sentence [ID: " + SentimentID + "." + SentenceID + "]: " + ResultSentenceText;
                                         Results.AppendText(ResultLine + Environment.NewLine);
 
-                                        // Define JSON Call Request body
-                                        JSONCallString = "{\"documents\":[{\"id\":\"" + SentimentID + "\",\"text\":\"" + Sentence.Replace("\"", "") + "\"}]}";
-                                        byteData = Encoding.UTF8.GetBytes(JSONCallString);
+                                        ResultScoreLabel = Sentence["sentiment"].ToString();
+                                        ResultScoreConfPositive = Sentence["confidenceScores"].SelectToken("$.positive").ToString();
+                                        ResultScoreConfNeutral = Sentence["confidenceScores"].SelectToken("$.neutral").ToString(); 
+                                        ResultScoreConfNegative = Sentence["confidenceScores"].SelectToken("$.negative").ToString(); 
 
-                                        // SENTIMENT - SENTENCE TEXT
-                                        ResultLine = "Detecting Sentiment in Sentence...";
+                                        ResultLine = "Sentence Sentiment: Label [" + ResultScoreLabel + "] [Positive:" + ResultScoreConfPositive + " | Neutral:" + ResultScoreConfNeutral + " | Negative:" + ResultScoreConfNegative + "]";
                                         Results.AppendText(ResultLine + Environment.NewLine);
 
-                                        JSONCallResponse = await CallEndpoint(client, TextAPIBaseURL.Text + TextAPIVersion.Text + "sentiment", byteData);
-                                        JSONObject = JObject.Parse(JSONCallResponse);
+                                        //Write to File
+                                        FileLine = SentimentID.ToString() + "\t" + SentenceID.ToString() + "\t" + ResultSentenceText + "\t" + ResultScoreLabel + "\t" + ResultScoreConfPositive + "\t" + ResultScoreConfNeutral + "\t" + ResultScoreConfNegative;
+                                        streamWriter_Sentence.WriteLine(FileLine);
 
-                                        ResultErrors = (JSONObject["errors"]).ToString();
-                                        ResultErrorsList = JsonConvert.DeserializeObject<List<string>>(ResultErrors);
-                                        ResultErrorsListString = string.Join(", ", ResultErrorsList.ToArray());
-
-                                        if (ResultErrorsListString != "")
-                                        {
-                                            ResultLine = "### ERROR ### [" + ResultErrorsListString + "]";
-                                            Results.AppendText(ResultLine + Environment.NewLine);
-                                            ProcessTotalErrors++;
-                                        }
-                                        else
-                                        {
-                                            ResultScore = JSONObject["documents"][0]["score"].ToString();
-
-                                            ResultLine = "Sentence Sentiment [" + ResultScore + "]";
-                                            Results.AppendText(ResultLine + Environment.NewLine);
-
-                                            //Write to File
-                                            FileLine = SentimentID.ToString() + "\t" + SentenceID.ToString() + "\t" + Sentence + "\t" + ResultScore;
-                                            streamWriter_Sentence.WriteLine(FileLine);
-                                        }
                                         SentenceID++;
                                     }
                                 }
                             }
-                        }
-                        else // blank line in file
-                        {
-                            //Write BLANK to File
-                            FileLine = SentimentID.ToString() + "\t" + "" + "\t" + "";
-                            streamWriter_Sentiment.WriteLine(FileLine);
+
+                            // ENTITIES
+                            Results.AppendText(Environment.NewLine);
+                            if (rbEntity.Checked == true)
+                            {
+                                ResultLine = "Detecting [Named Entities]...";
+                                Results.AppendText(ResultLine + Environment.NewLine);
+
+                                JSONCallResponse = await CallEndpoint(client, TextAPIBaseURL.Text + TextAPIVersion.Text + "entities/recognition/general", byteData);
+                                JSONObject = JObject.Parse(JSONCallResponse);
+
+                                ResultErrors = (JSONObject["errors"]).ToString();
+                                ResultErrorsList = JsonConvert.DeserializeObject<List<string>>(ResultErrors);
+                                ResultErrorsListString = string.Join(", ", ResultErrorsList.ToArray());
+
+                                if (ResultErrorsListString != "")
+                                {
+                                    ResultLine = "### ERROR ### [" + ResultErrorsListString + "]";
+                                    Results.AppendText(ResultLine + Environment.NewLine);
+                                    EntityID++;
+                                    ProcessTotalErrors++;
+                                }
+                                else
+                                {
+                                    foreach (var Entity in JSONObject["documents"][0]["entities"])
+                                    {
+                                        ResultEntityText = Entity["text"].ToString();
+                                        ResultEntityCategory = Entity["category"].ToString();
+                                        ResultEntityScore = Entity["confidenceScore"].ToString();
+
+                                        ResultLine = "Named Entity [Text:" + ResultEntityText + " | Category:" + ResultEntityCategory + " | Score:" + ResultEntityScore + "]";
+                                        Results.AppendText(ResultLine + Environment.NewLine);
+
+                                        //Write to File
+                                        FileLine = SentimentID.ToString() + "\t" + EntityID.ToString() + "\t" + ResultEntityText + "\t" + ResultEntityCategory + "\t" + ResultEntityScore;
+                                        streamWriter_Entity.WriteLine(FileLine);
+
+                                        EntityID++;
+                                    }
+                                }
+                            }
                         }
 
                         SentimentID++;
                         Results.AppendText(Environment.NewLine);
-                        ProgressBar.Value = ProgressBar.Value + ProgressIncAmt;
-                        PctComplete.Text = ProgressBar.Value.ToString() + "%";
+
+                        ProgressBar.Value++;
+                        PctComplete.Text = "[" + ProgressBar.Value + "/" + ProgressBar.Maximum + "]";
                     }
                     file.Close();
                 }
 
-            // Increase Progress Bar
-            ProgressBar.Value = ProgressBar.Value + ProgressIncAmt;
-            PctComplete.Text = ProgressBar.Value.ToString() + "%";
+                // Close Output Files
+                streamWriter_Sentiment.Close();
+                streamWriter_Sentence.Close();
+                streamWriter_Phrases.Close();
+                streamWriter_Entity.Close();
 
-            // Close Output Files
-            streamWriter_Sentiment.Close();
-            streamWriter_Sentence.Close();
-            streamWriter_Phrases.Close();
+                Results.AppendText(Environment.NewLine);
+                Results.AppendText("Write Sentiment File [" + FileName_Sentiment + "]." + Environment.NewLine);
+                Results.AppendText("Write Sentence File [" + FileName_Sentence + "]." + Environment.NewLine);
+                Results.AppendText("Write Key Phrases File [" + FileName_Phrases + "]." + Environment.NewLine);
+                Results.AppendText("Write Entity File [" + FileName_Entity + "]." + Environment.NewLine);
 
-            Results.AppendText(Environment.NewLine);
-            Results.AppendText("Write Sentiment File [" + FileName_Sentiment + "]." + Environment.NewLine);
-            Results.AppendText(Environment.NewLine);
-            Results.AppendText("Write Sentence File [" + FileName_Sentence + "]." + Environment.NewLine);
-            Results.AppendText(Environment.NewLine);
-            Results.AppendText("Write Key Phrases File [" + FileName_Phrases + "]." + Environment.NewLine);
-
-            // Set progress to 100%
-            Results.AppendText(Environment.NewLine);
-            Results.AppendText("Process Completed. [" + SentimentID.ToString() + "] Text Lines Processed. [" + ProcessTotalErrors.ToString() + "] Errors." + Environment.NewLine);
-            ProgressBar.Value = 100;
-            PctComplete.Text = ProgressBar.Value.ToString() + "%";
-
+                // Set progress to 100%
+                strend = DateTime.Now;
+                Results.AppendText(Environment.NewLine);
+                Results.AppendText("Process Completed [Total Mins:" + ((strend - strstart).TotalMinutes).ToString("0.00") + "]. [" + SentimentID.ToString() + "] Text Lines Processed. [" + ProcessTotalErrors.ToString() + "] Errors." + Environment.NewLine);
+                ProgressBar.Value = ProgressBar.Maximum;
+                PctComplete.Text = "[" + ProgressBar.Maximum + "/" + ProgressBar.Maximum + "]";
             }
             catch (Exception ex)
             {
@@ -408,5 +431,9 @@ namespace Cognitive_TEXT_API
         {
         }
 
+        private void rbTopics_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

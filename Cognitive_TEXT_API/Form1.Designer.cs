@@ -60,10 +60,10 @@
             this.cbURL = new System.Windows.Forms.CheckBox();
             this.cb1500 = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rbSentiment = new System.Windows.Forms.CheckBox();
-            this.rbKeyPhrases = new System.Windows.Forms.CheckBox();
-            this.rbTopics = new System.Windows.Forms.CheckBox();
             this.rbLanguage = new System.Windows.Forms.CheckBox();
+            this.rbEntity = new System.Windows.Forms.CheckBox();
+            this.rbKeyPhrases = new System.Windows.Forms.CheckBox();
+            this.rbSentiment = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,7 +74,7 @@
             this.APIKey.Name = "APIKey";
             this.APIKey.Size = new System.Drawing.Size(500, 20);
             this.APIKey.TabIndex = 0;
-            this.APIKey.Text = "<TextAnalyticsAPIKey>";
+            this.APIKey.Text = "<YourTextAnalyticsAPIKeyHere>";
             // 
             // openFileDialog1
             // 
@@ -92,7 +92,7 @@
             this.SourceFile.Name = "SourceFile";
             this.SourceFile.Size = new System.Drawing.Size(500, 20);
             this.SourceFile.TabIndex = 1;
-            this.SourceFile.Text = "c:\\";
+            this.SourceFile.Text = "C:\\";
             this.SourceFile.TextChanged += new System.EventHandler(this.SourceFile_TextChanged);
             // 
             // OutputFile
@@ -194,7 +194,7 @@
             this.TextAPIBaseURL.Name = "TextAPIBaseURL";
             this.TextAPIBaseURL.Size = new System.Drawing.Size(500, 20);
             this.TextAPIBaseURL.TabIndex = 10;
-            this.TextAPIBaseURL.Text = "https://westus.api.cognitive.microsoft.com/";
+            this.TextAPIBaseURL.Text = "https://<YourNameHere>.cognitiveservices.azure.com/";
             // 
             // TextAPIVersion
             // 
@@ -203,7 +203,7 @@
             this.TextAPIVersion.Name = "TextAPIVersion";
             this.TextAPIVersion.Size = new System.Drawing.Size(500, 20);
             this.TextAPIVersion.TabIndex = 11;
-            this.TextAPIVersion.Text = "text/analytics/v2.0/";
+            this.TextAPIVersion.Text = "text/analytics/v3.0/";
             // 
             // label2
             // 
@@ -267,6 +267,8 @@
             // 
             // cbSplit
             // 
+            this.cbSplit.Checked = true;
+            this.cbSplit.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbSplit.Location = new System.Drawing.Point(290, 168);
             this.cbSplit.Name = "cbSplit";
             this.cbSplit.Size = new System.Drawing.Size(174, 24);
@@ -288,7 +290,7 @@
             this.PctComplete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PctComplete.Location = new System.Drawing.Point(310, 336);
             this.PctComplete.Name = "PctComplete";
-            this.PctComplete.Size = new System.Drawing.Size(34, 13);
+            this.PctComplete.Size = new System.Drawing.Size(75, 13);
             this.PctComplete.TabIndex = 22;
             this.PctComplete.Text = "0%";
             this.PctComplete.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -309,6 +311,7 @@
             this.cbReplaceTab.AutoSize = true;
             this.cbReplaceTab.Checked = true;
             this.cbReplaceTab.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbReplaceTab.Enabled = false;
             this.cbReplaceTab.Location = new System.Drawing.Point(290, 198);
             this.cbReplaceTab.Name = "cbReplaceTab";
             this.cbReplaceTab.Size = new System.Drawing.Size(127, 17);
@@ -336,9 +339,9 @@
             this.cbTrim.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbTrim.Location = new System.Drawing.Point(290, 224);
             this.cbTrim.Name = "cbTrim";
-            this.cbTrim.Size = new System.Drawing.Size(121, 17);
+            this.cbTrim.Size = new System.Drawing.Size(104, 17);
             this.cbTrim.TabIndex = 28;
-            this.cbTrim.Text = "Trim Left, Trim Right";
+            this.cbTrim.Text = "Trim Left + Right";
             this.cbTrim.UseVisualStyleBackColor = true;
             // 
             // cbHashtag
@@ -373,15 +376,15 @@
             this.cb1500.Enabled = false;
             this.cb1500.Location = new System.Drawing.Point(290, 296);
             this.cb1500.Name = "cb1500";
-            this.cb1500.Size = new System.Drawing.Size(155, 17);
+            this.cb1500.Size = new System.Drawing.Size(132, 17);
             this.cb1500.TabIndex = 31;
-            this.cb1500.Text = "Truncate Document to 10K";
+            this.cb1500.Text = "Truncate to 5120 char";
             this.cb1500.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.rbLanguage);
-            this.groupBox1.Controls.Add(this.rbTopics);
+            this.groupBox1.Controls.Add(this.rbEntity);
             this.groupBox1.Controls.Add(this.rbKeyPhrases);
             this.groupBox1.Controls.Add(this.rbSentiment);
             this.groupBox1.Location = new System.Drawing.Point(470, 173);
@@ -391,19 +394,37 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Text API Operations";
             // 
-            // rbSentiment
+            // rbLanguage
             // 
-            this.rbSentiment.AutoSize = true;
-            this.rbSentiment.Location = new System.Drawing.Point(10, 26);
-            this.rbSentiment.Name = "rbSentiment";
-            this.rbSentiment.Size = new System.Drawing.Size(73, 17);
-            this.rbSentiment.TabIndex = 36;
-            this.rbSentiment.Text = "Sentiment";
-            this.rbSentiment.UseVisualStyleBackColor = true;
+            this.rbLanguage.AutoSize = true;
+            this.rbLanguage.Checked = true;
+            this.rbLanguage.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.rbLanguage.Enabled = false;
+            this.rbLanguage.Location = new System.Drawing.Point(10, 106);
+            this.rbLanguage.Name = "rbLanguage";
+            this.rbLanguage.Size = new System.Drawing.Size(99, 17);
+            this.rbLanguage.TabIndex = 39;
+            this.rbLanguage.Text = "Language \"en\"";
+            this.rbLanguage.UseVisualStyleBackColor = true;
+            // 
+            // rbEntity
+            // 
+            this.rbEntity.AutoSize = true;
+            this.rbEntity.Checked = true;
+            this.rbEntity.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.rbEntity.Location = new System.Drawing.Point(10, 80);
+            this.rbEntity.Name = "rbEntity";
+            this.rbEntity.Size = new System.Drawing.Size(89, 17);
+            this.rbEntity.TabIndex = 38;
+            this.rbEntity.Text = "Named Entity";
+            this.rbEntity.UseVisualStyleBackColor = true;
+            this.rbEntity.CheckedChanged += new System.EventHandler(this.rbTopics_CheckedChanged);
             // 
             // rbKeyPhrases
             // 
             this.rbKeyPhrases.AutoSize = true;
+            this.rbKeyPhrases.Checked = true;
+            this.rbKeyPhrases.CheckState = System.Windows.Forms.CheckState.Checked;
             this.rbKeyPhrases.Location = new System.Drawing.Point(10, 53);
             this.rbKeyPhrases.Name = "rbKeyPhrases";
             this.rbKeyPhrases.Size = new System.Drawing.Size(85, 17);
@@ -411,27 +432,17 @@
             this.rbKeyPhrases.Text = "Key Phrases";
             this.rbKeyPhrases.UseVisualStyleBackColor = true;
             // 
-            // rbTopics
+            // rbSentiment
             // 
-            this.rbTopics.AutoSize = true;
-            this.rbTopics.Enabled = false;
-            this.rbTopics.Location = new System.Drawing.Point(10, 80);
-            this.rbTopics.Name = "rbTopics";
-            this.rbTopics.Size = new System.Drawing.Size(58, 17);
-            this.rbTopics.TabIndex = 38;
-            this.rbTopics.Text = "Topics";
-            this.rbTopics.UseVisualStyleBackColor = true;
-            // 
-            // rbLanguage
-            // 
-            this.rbLanguage.AutoSize = true;
-            this.rbLanguage.Enabled = false;
-            this.rbLanguage.Location = new System.Drawing.Point(10, 106);
-            this.rbLanguage.Name = "rbLanguage";
-            this.rbLanguage.Size = new System.Drawing.Size(74, 17);
-            this.rbLanguage.TabIndex = 39;
-            this.rbLanguage.Text = "Language";
-            this.rbLanguage.UseVisualStyleBackColor = true;
+            this.rbSentiment.AutoSize = true;
+            this.rbSentiment.Checked = true;
+            this.rbSentiment.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.rbSentiment.Location = new System.Drawing.Point(10, 26);
+            this.rbSentiment.Name = "rbSentiment";
+            this.rbSentiment.Size = new System.Drawing.Size(73, 17);
+            this.rbSentiment.TabIndex = 36;
+            this.rbSentiment.Text = "Sentiment";
+            this.rbSentiment.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -514,10 +525,10 @@
         private System.Windows.Forms.CheckBox cbURL;
         private System.Windows.Forms.CheckBox cb1500;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox rbLanguage;
-        private System.Windows.Forms.CheckBox rbTopics;
+        private System.Windows.Forms.CheckBox rbEntity;
         private System.Windows.Forms.CheckBox rbKeyPhrases;
         private System.Windows.Forms.CheckBox rbSentiment;
+        private System.Windows.Forms.CheckBox rbLanguage;
     }
 }
 
